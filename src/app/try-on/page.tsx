@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -37,16 +37,28 @@ export default function TryOnPage() {
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [progress, setProgress] = useState(0);
+    const [products, setProducts] = useState<any[]>([]);
+    const [isLoadingProducts, setIsLoadingProducts] = useState(true);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    // Mock products for demo
-    const mockProducts = [
-        { id: "1", name: "Blue Denim Jacket", image: "🧥", color: "from-blue-400 to-blue-600" },
-        { id: "2", name: "Red Summer Dress", image: "👗", color: "from-red-400 to-pink-600" },
-        { id: "3", name: "Black T-Shirt", image: "👕", color: "from-gray-700 to-gray-900" },
-        { id: "4", name: "Green Hoodie", image: "🧥", color: "from-green-400 to-green-600" },
-    ];
+    // Fetch products from database
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('/api/products');
+                const result = await response.json();
+                if (result.success) {
+                    setProducts(result.data);
+                }
+            } catch (err) {
+                console.error('Failed to fetch products', err);
+            } finally {
+                setIsLoadingProducts(false);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -107,23 +119,38 @@ export default function TryOnPage() {
         }, 200);
 
         try {
-            // Simulate API call
-            await new Promise((resolve) => setTimeout(resolve, 4000));
+            const product = products.find((p) => p.id === selectedProduct);
+            const variantId = product?.variants?.[0]?.id;
 
-            const product = mockProducts.find((p) => p.id === selectedProduct);
+            // Real API call
+            const response = await fetch('/api/ai/try-on', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    image: uploadedImage,
+                    productId: selectedProduct,
+                    variantId: variantId,
+                }),
+            });
+
+            const apiResult = await response.json();
+
+            if (!apiResult.success) {
+                throw new Error(apiResult.error || 'Failed to process image');
+            }
 
             setResult({
                 originalImage: uploadedImage,
-                resultImage: uploadedImage, // In production, this would be the AI-generated image
+                resultImage: apiResult.data.resultImageUrl,
                 productName: product?.name || "Product",
                 productId: selectedProduct,
-                processingTime: 3.2,
+                processingTime: apiResult.data.processingTimeMs / 1000,
             });
 
             setProgress(100);
             setStep("result");
         } catch (err) {
-            setError("Failed to process image. Please try again.");
+            setError(err instanceof Error ? err.message : "Failed to process image. Please try again.");
             setStep("upload");
         } finally {
             clearInterval(progressInterval);
@@ -263,27 +290,43 @@ export default function TryOnPage() {
                                 </h2>
 
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                                    {mockProducts.map((product) => (
-                                        <button
-                                            key={product.id}
-                                            onClick={() => setSelectedProduct(product.id)}
-                                            className={`relative h-48 rounded-xl overflow-hidden transition-all ${selectedProduct === product.id
+                                    {isLoadingProducts ? (
+                                        [1, 2, 3, 4].map((i) => (
+                                            <div key={i} className="h-48 rounded-xl bg-gray-100 animate-pulse" />
+                                        ))
+                                    ) : (
+                                        products.map((product) => (
+                                            <button
+                                                key={product.id}
+                                                onClick={() => setSelectedProduct(product.id)}
+                                                className={`relative h-48 rounded-xl overflow-hidden transition-all ${selectedProduct === product.id
                                                     ? "ring-4 ring-accent-600 scale-105"
                                                     : "hover:scale-105"
-                                                }`}
-                                        >
-                                            <div className={`absolute inset-0 bg-gradient-to-br ${product.color}`} />
-                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-                                                <div className="text-5xl mb-2">{product.image}</div>
-                                                <div className="text-sm font-medium px-2 text-center">{product.name}</div>
-                                            </div>
-                                            {selectedProduct === product.id && (
-                                                <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-white flex items-center justify-center">
-                                                    <Check className="w-4 h-4 text-accent-600" />
+                                                    }`}
+                                            >
+                                                {product.images?.[0]?.url ? (
+                                                    <Image
+                                                        src={product.images[0].url}
+                                                        alt={product.name}
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                ) : (
+                                                    <div className="absolute inset-0 bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-white text-5xl">
+                                                        🧥
+                                                    </div>
+                                                )}
+                                                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4 text-white">
+                                                    <div className="text-sm font-medium text-center">{product.name}</div>
                                                 </div>
-                                            )}
-                                        </button>
-                                    ))}
+                                                {selectedProduct === product.id && (
+                                                    <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-white flex items-center justify-center">
+                                                        <Check className="w-4 h-4 text-accent-600" />
+                                                    </div>
+                                                )}
+                                            </button>
+                                        ))
+                                    )}
                                 </div>
 
                                 <button

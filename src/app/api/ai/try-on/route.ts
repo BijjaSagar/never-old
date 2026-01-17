@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import prisma from "@/lib/prisma";
+import { crypto } from "next/dist/compiled/@edge-runtime/primitives";
 
 /**
  * AI Virtual Try-On API Endpoint
@@ -132,22 +134,21 @@ async function createTryOnSession(
     imageUrl: string,
     bodyAnalysis: BodyAnalysis
 ) {
-    // In production, this would use Prisma to create a session
     const sessionId = crypto.randomUUID();
     const sessionToken = crypto.randomUUID();
 
-    // await prisma.aiTryOnSession.create({
-    //   data: {
-    //     id: sessionId,
-    //     userId,
-    //     sessionToken,
-    //     uploadedImageUrl: imageUrl,
-    //     uploadedImageHash: hashImage(imageUrl),
-    //     bodyAnalysis,
-    //     status: 'PROCESSING',
-    //     expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-    //   },
-    // });
+    await prisma.aiTryOnSession.create({
+        data: {
+            id: sessionId,
+            userId,
+            sessionToken,
+            uploadedImageUrl: imageUrl,
+            uploadedImageHash: Buffer.from(imageUrl).toString('base64').substring(0, 32), // Simple hash for demo
+            bodyAnalysis: bodyAnalysis as any,
+            status: "PROCESSING",
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+        },
+    });
 
     return { sessionId, sessionToken };
 }
@@ -163,21 +164,20 @@ async function saveTryOnResult(
     processingTimeMs: number,
     qualityScore: number
 ) {
-    // In production, this would use Prisma
-    // await prisma.aiTryOnResult.create({
-    //   data: {
-    //     sessionId,
-    //     productId,
-    //     variantId,
-    //     resultImageUrl,
-    //     processingTimeMs,
-    //     qualityScore,
-    //     metadata: {
-    //       modelVersion: 'viton-hd-v2',
-    //       parameters: { guidance_scale: 7.5, num_inference_steps: 50 },
-    //     },
-    //   },
-    // });
+    await prisma.aiTryOnResult.create({
+        data: {
+            sessionId,
+            productId,
+            variantId,
+            resultImageUrl,
+            processingTimeMs,
+            qualityScore,
+            metadata: {
+                modelVersion: "viton-hd-v2",
+                parameters: { guidance_scale: 7.5, num_inference_steps: 50 },
+            },
+        },
+    });
 }
 
 export async function POST(request: NextRequest) {
@@ -299,11 +299,17 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        // In production, fetch from database
-        // const session = await prisma.aiTryOnSession.findUnique({
-        //   where: { id: sessionId },
-        //   include: { results: true },
-        // });
+        const session = await prisma.aiTryOnSession.findUnique({
+            where: { id: sessionId },
+            include: { results: true },
+        });
+
+        if (!session) {
+            return NextResponse.json(
+                { error: "Session not found" },
+                { status: 404 }
+            );
+        }
 
         // Mock response
         return NextResponse.json({
@@ -338,14 +344,10 @@ export async function DELETE(request: NextRequest) {
             );
         }
 
-        // In production:
-        // 1. Fetch session from database
-        // 2. Delete images from S3
-        // 3. Mark session as deleted
-        // await prisma.aiTryOnSession.update({
-        //   where: { id: sessionId },
-        //   data: { deletedAt: new Date() },
-        // });
+        await prisma.aiTryOnSession.update({
+            where: { id: sessionId },
+            data: { deletedAt: new Date() },
+        });
 
         return NextResponse.json({
             success: true,
