@@ -3,6 +3,8 @@ import Image from 'next/image'
 import { ShoppingCart, Filter, Search } from 'lucide-react'
 import prisma from '@/lib/prisma'
 
+import Header from '@/components/layout/Header'
+
 export default async function ShopPage() {
     const products = await prisma.product.findMany({
         where: { isActive: true },
@@ -22,28 +24,7 @@ export default async function ShopPage() {
 
     return (
         <div className="min-h-screen bg-primary-50">
-            {/* Header */}
-            <header className="bg-white shadow-sm sticky top-0 z-50">
-                <div className="container-custom py-4">
-                    <div className="flex items-center justify-between">
-                        <Link href="/" className="text-2xl font-display font-bold text-primary-900">
-                            AURA FIT
-                        </Link>
-                        <nav className="flex items-center gap-6">
-                            <Link href="/shop" className="text-accent-600 font-medium">
-                                Shop
-                            </Link>
-                            <Link href="/try-on" className="text-text-muted hover:text-primary-900 transition-colors">
-                                AI Try-On
-                            </Link>
-                            <Link href="/cart" className="btn-primary btn-sm">
-                                <ShoppingCart className="w-4 h-4" />
-                                Cart
-                            </Link>
-                        </nav>
-                    </div>
-                </div>
-            </header>
+            <Header />
 
             <main className="container-custom py-12">
                 <div className="flex flex-col md:flex-row gap-8">

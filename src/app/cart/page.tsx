@@ -1,32 +1,13 @@
 import Link from 'next/link'
 import { ShoppingCart, ArrowLeft, Trash2, Plus, Minus, CreditCard } from 'lucide-react'
 
+import Header from '@/components/layout/Header'
+
 export default function CartPage() {
     // Basic empty cart state for now as shopping cart logic is planned for Phase 1 Week 3-4
     return (
         <div className="min-h-screen bg-primary-50">
-            {/* Header */}
-            <header className="bg-white shadow-sm sticky top-0 z-50">
-                <div className="container-custom py-4">
-                    <div className="flex items-center justify-between">
-                        <Link href="/" className="text-2xl font-display font-bold text-primary-900">
-                            AURA FIT
-                        </Link>
-                        <nav className="flex items-center gap-6">
-                            <Link href="/shop" className="text-text-muted hover:text-primary-900 transition-colors">
-                                Shop
-                            </Link>
-                            <Link href="/try-on" className="text-text-muted hover:text-primary-900 transition-colors">
-                                AI Try-On
-                            </Link>
-                            <Link href="/cart" className="text-accent-600 font-medium flex items-center gap-2">
-                                <ShoppingCart className="w-4 h-4" />
-                                Cart
-                            </Link>
-                        </nav>
-                    </div>
-                </div>
-            </header>
+            <Header />
 
             <main className="container-custom py-12">
                 <h1 className="text-3xl font-display font-bold text-primary-900 mb-8">

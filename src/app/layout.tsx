@@ -60,6 +60,8 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 };
 
+import { NextAuthProvider } from "@/components/providers/SessionProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -68,7 +70,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <body className="antialiased">
-        {children}
+        <NextAuthProvider>
+          {children}
+        </NextAuthProvider>
       </body>
     </html>
   );

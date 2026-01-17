@@ -11,9 +11,12 @@ import {
     Shield,
     RefreshCw,
     ChevronRight,
-    Check
+    Check,
+    Sparkles
 } from 'lucide-react'
 import prisma from '@/lib/prisma'
+
+import Header from '@/components/layout/Header'
 
 export default async function ProductPage({ params }: { params: { id: string } }) {
     const { id } = params
@@ -35,31 +38,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Header */}
-            <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-                <div className="container-custom py-4">
-                    <div className="flex items-center justify-between">
-                        <Link href="/" className="text-2xl font-display font-bold text-primary-900">
-                            AURA FIT
-                        </Link>
-                        <nav className="flex items-center gap-6">
-                            <Link href="/shop" className="text-primary-900 font-medium hover:text-accent-600 transition-colors">
-                                Shop
-                            </Link>
-                            <Link href="/try-on" className="text-primary-900 font-medium hover:text-accent-600 transition-colors">
-                                AI Try-On
-                            </Link>
-                            {/* Simple Cart Indicator */}
-                            <Link href="/cart" className="relative p-2 text-primary-900">
-                                <ShoppingCart className="w-6 h-6" />
-                                <span className="absolute top-0 right-0 w-4 h-4 bg-accent-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full">
-                                    0
-                                </span>
-                            </Link>
-                        </nav>
-                    </div>
-                </div>
-            </header>
+            <Header />
 
             <main className="container-custom py-8">
                 {/* Breadcrumbs */}

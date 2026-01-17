@@ -14,6 +14,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import prisma from "@/lib/prisma";
+import Header from "@/components/layout/Header";
 
 export default async function HomePage() {
   const featuredProducts = await prisma.product.findMany({
@@ -35,28 +36,10 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Premium Header/Nav */}
-      <header className="absolute top-0 left-0 right-0 z-50">
-        <div className="container-custom py-6">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-display font-bold text-white">
-              AURA FIT
-            </Link>
-            <nav className="hidden md:flex items-center gap-8 text-white/90 font-medium">
-              <Link href="/shop" className="hover:text-white transition-colors">Shop</Link>
-              <Link href="/try-on" className="hover:text-white transition-colors">AI Try-On</Link>
-              <Link href="/about" className="hover:text-white transition-colors">Store</Link>
-              <Link href="/cart" className="bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full hover:bg-white/20 transition-all flex items-center gap-2">
-                <ShoppingBag className="w-4 h-4" />
-                Cart
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Modern Fashion Hero Section */}
-      <section className="relative h-screen flex items-center overflow-hidden">
+      <section className="relative h-[calc(100vh-72px)] flex items-center overflow-hidden">
         {/* Hero Background */}
         <div className="absolute inset-0 z-0">
           <Image
