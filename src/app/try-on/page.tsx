@@ -17,7 +17,9 @@ import {
     RefreshCw,
     X,
     Info,
+    Zap,
 } from "lucide-react";
+import Header from "@/components/layout/Header";
 
 type UploadStep = "upload" | "processing" | "result";
 
@@ -107,7 +109,7 @@ export default function TryOnPage() {
         setProgress(0);
         setError(null);
 
-        // Simulate AI processing
+        // Simulate AI processing progress
         const progressInterval = setInterval(() => {
             setProgress((prev) => {
                 if (prev >= 95) {
@@ -116,13 +118,12 @@ export default function TryOnPage() {
                 }
                 return prev + 5;
             });
-        }, 200);
+        }, 300);
 
         try {
             const product = products.find((p) => p.id === selectedProduct);
             const variantId = product?.variants?.[0]?.id;
 
-            // Real API call
             const response = await fetch('/api/ai/try-on', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -168,56 +169,34 @@ export default function TryOnPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50">
-            {/* Header */}
-            <header className="bg-white shadow-sm sticky top-0 z-50">
-                <div className="container-custom py-4">
-                    <div className="flex items-center justify-between">
-                        <Link href="/" className="text-2xl font-display font-bold text-primary-900">
-                            AURA FIT
-                        </Link>
-                        <nav className="flex items-center gap-6">
-                            <Link href="/shop" className="text-text-muted hover:text-primary-900 transition-colors">
-                                Shop
-                            </Link>
-                            <Link href="/try-on" className="text-accent-600 font-medium">
-                                AI Try-On
-                            </Link>
-                            <Link href="/cart" className="btn-primary btn-sm">
-                                <ShoppingCart className="w-4 h-4" />
-                                Cart
-                            </Link>
-                        </nav>
-                    </div>
-                </div>
-            </header>
+        <div className="min-h-screen bg-primary-50 selection:bg-lavender selection:text-primary-900">
+            <Header />
 
-            {/* Main Content */}
-            <main className="container-custom py-12">
-                {/* Page Header */}
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-100 text-accent-700 mb-4">
-                        <Sparkles className="w-4 h-4" />
-                        <span className="text-sm font-medium">AI-Powered Virtual Try-On</span>
+            <main className="container-custom pt-40 pb-20">
+                {/* Page Header: Gen-Z Bubbles */}
+                <div className="text-center mb-20 space-y-6">
+                    <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-lavender/30 border border-lavender/50 text-primary-900 animate-pulse">
+                        <Sparkles className="w-5 h-5 text-accent-600" />
+                        <span className="text-sm font-black uppercase tracking-widest">Magic Trial Room</span>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-display font-bold text-primary-900 mb-4">
-                        See How It Looks On You
+                    <h1 className="text-6xl md:text-8xl font-display font-black text-primary-900 tracking-tighter uppercase leading-none">
+                        VIRTUAL <span className="italic outline-text">VIBE</span> CHECK
                     </h1>
-                    <p className="text-xl text-text-muted max-w-2xl mx-auto">
-                        Upload your photo and try on any outfit instantly with our advanced AI technology
+                    <p className="text-xl text-text-muted max-w-2xl mx-auto font-bold">
+                        Upload your photo and see how the freshest gear looks on you instantly.
                     </p>
                 </div>
 
                 {/* Upload Step */}
                 {step === "upload" && (
-                    <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
-                        {/* Image Upload */}
-                        <div className="card p-8">
-                            <h2 className="text-2xl font-display font-semibold text-primary-900 mb-6 flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-full bg-accent-600 text-white flex items-center justify-center text-sm font-bold">
+                    <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 animate-fade-in">
+                        {/* 1. Photo Selection */}
+                        <div className="lg:col-span-12 xl:col-span-7 bg-white rounded-[4rem] p-12 shadow-xl border border-gray-100">
+                            <h2 className="text-4xl font-display font-black text-primary-900 mb-10 flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-primary-900 text-white flex items-center justify-center text-xl font-black">
                                     1
                                 </div>
-                                Upload Your Photo
+                                YOUR PHOTO
                             </h2>
 
                             {!uploadedImage ? (
@@ -225,20 +204,20 @@ export default function TryOnPage() {
                                     onDragOver={handleDragOver}
                                     onDrop={handleDrop}
                                     onClick={() => fileInputRef.current?.click()}
-                                    className="border-2 border-dashed border-border rounded-xl p-12 text-center cursor-pointer hover:border-accent-600 hover:bg-accent-50/50 transition-all group"
+                                    className="border-8 border-dashed border-primary-50 rounded-[3rem] p-20 text-center cursor-pointer hover:border-lavender hover:bg-lavender/5 transition-all group"
                                 >
-                                    <div className="w-20 h-20 rounded-full bg-accent-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                        <Upload className="w-10 h-10 text-accent-600" />
+                                    <div className="w-24 h-24 rounded-[2.5rem] bg-lavender/20 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 group-hover:rotate-6 transition-transform">
+                                        <Camera className="w-12 h-12 text-primary-900" />
                                     </div>
-                                    <h3 className="text-lg font-semibold text-primary-900 mb-2">
-                                        Drop your image here or click to browse
+                                    <h3 className="text-3xl font-display font-black text-primary-900 mb-4 uppercase tracking-tighter">
+                                        Drop your selfie here
                                     </h3>
-                                    <p className="text-text-muted mb-4">
-                                        Supports: JPG, PNG, WebP (Max 10MB)
+                                    <p className="text-text-muted font-bold mb-8 uppercase tracking-widest text-xs">
+                                        Full or half-body works best
                                     </p>
-                                    <div className="inline-flex items-center gap-2 text-sm text-accent-600">
-                                        <Camera className="w-4 h-4" />
-                                        <span>Best results with full or half-body photos</span>
+                                    <div className="inline-flex items-center gap-2 px-6 py-3 bg-primary-900 text-white rounded-2xl text-sm font-black uppercase">
+                                        <Upload className="w-5 h-5" />
+                                        <span>Browse Files</span>
                                     </div>
                                     <input
                                         ref={fileInputRef}
@@ -249,8 +228,8 @@ export default function TryOnPage() {
                                     />
                                 </div>
                             ) : (
-                                <div className="relative">
-                                    <div className="relative w-full max-w-md mx-auto aspect-[3/4] rounded-xl overflow-hidden">
+                                <div className="relative group">
+                                    <div className="relative w-full max-w-md mx-auto aspect-[3/4] rounded-[3rem] overflow-hidden border-8 border-white shadow-2xl skew-y-1">
                                         <Image
                                             src={uploadedImage}
                                             alt="Uploaded"
@@ -260,48 +239,50 @@ export default function TryOnPage() {
                                     </div>
                                     <button
                                         onClick={resetTryOn}
-                                        className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-100 transition-colors"
+                                        className="absolute top-4 right-4 w-14 h-14 rounded-3xl bg-white shadow-2xl flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-colors"
                                     >
-                                        <X className="w-5 h-5 text-gray-600" />
+                                        <X className="w-7 h-7" />
                                     </button>
-                                    <div className="mt-4 flex items-center justify-center gap-2 text-success">
-                                        <Check className="w-5 h-5" />
-                                        <span className="font-medium">Image uploaded successfully</span>
+                                    <div className="mt-8 flex items-center justify-center gap-3">
+                                        <div className="w-8 h-8 rounded-full bg-mint flex items-center justify-center">
+                                            <Check className="w-5 h-5 text-primary-900" />
+                                        </div>
+                                        <span className="font-black uppercase tracking-widest text-sm italic">Looking Good!</span>
                                     </div>
                                 </div>
                             )}
 
                             {error && (
-                                <div className="mt-4 p-4 rounded-lg bg-error-light border border-error flex items-center gap-2 text-error-dark">
-                                    <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                                <div className="mt-8 p-6 rounded-[2rem] bg-red-50 border-4 border-red-100 flex items-center gap-4 text-red-600 font-bold italic">
+                                    <AlertCircle className="w-6 h-6 flex-shrink-0" />
                                     <span>{error}</span>
                                 </div>
                             )}
                         </div>
 
-                        {/* Product Selection */}
-                        {uploadedImage && (
-                            <div className="card p-8 animate-slide-up">
-                                <h2 className="text-2xl font-display font-semibold text-primary-900 mb-6 flex items-center gap-2">
-                                    <div className="w-8 h-8 rounded-full bg-accent-600 text-white flex items-center justify-center text-sm font-bold">
+                        {/* 2. Style Selection */}
+                        <div className="lg:col-span-12 xl:col-span-5 space-y-8 animate-slide-up">
+                            <div className="bg-white rounded-[4rem] p-12 shadow-xl border border-gray-100">
+                                <h2 className="text-4xl font-display font-black text-primary-900 mb-10 flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-2xl bg-primary-900 text-white flex items-center justify-center text-xl font-black">
                                         2
                                     </div>
-                                    Select a Product to Try
+                                    PICK GEAR
                                 </h2>
 
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                <div className="grid grid-cols-2 gap-6 mb-10">
                                     {isLoadingProducts ? (
                                         [1, 2, 3, 4].map((i) => (
-                                            <div key={i} className="h-48 rounded-xl bg-gray-100 animate-pulse" />
+                                            <div key={i} className="aspect-square rounded-[2rem] bg-gray-50 animate-pulse" />
                                         ))
                                     ) : (
-                                        products.map((product) => (
+                                        products.slice(0, 4).map((product) => (
                                             <button
                                                 key={product.id}
                                                 onClick={() => setSelectedProduct(product.id)}
-                                                className={`relative h-48 rounded-xl overflow-hidden transition-all ${selectedProduct === product.id
-                                                    ? "ring-4 ring-accent-600 scale-105"
-                                                    : "hover:scale-105"
+                                                className={`relative aspect-square rounded-[2.5rem] overflow-hidden transition-all duration-500 border-4 ${selectedProduct === product.id
+                                                    ? "border-lavender scale-105 shadow-2xl rotate-2"
+                                                    : "border-transparent opacity-60 grayscale hover:grayscale-0 hover:opacity-100"
                                                     }`}
                                             >
                                                 {product.images?.[0]?.url ? (
@@ -312,16 +293,11 @@ export default function TryOnPage() {
                                                         className="object-cover"
                                                     />
                                                 ) : (
-                                                    <div className="absolute inset-0 bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-white text-5xl">
-                                                        🧥
-                                                    </div>
+                                                    <div className="absolute inset-0 bg-primary-100 flex items-center justify-center text-5xl">🧥</div>
                                                 )}
-                                                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4 text-white">
-                                                    <div className="text-sm font-medium text-center">{product.name}</div>
-                                                </div>
                                                 {selectedProduct === product.id && (
-                                                    <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-white flex items-center justify-center">
-                                                        <Check className="w-4 h-4 text-accent-600" />
+                                                    <div className="absolute top-4 right-4 w-10 h-10 rounded-2xl bg-lavender flex items-center justify-center shadow-lg">
+                                                        <Check className="w-6 h-6 text-primary-900" />
                                                     </div>
                                                 )}
                                             </button>
@@ -331,163 +307,152 @@ export default function TryOnPage() {
 
                                 <button
                                     onClick={handleTryOn}
-                                    disabled={!selectedProduct || isProcessing}
-                                    className="btn-accent w-full btn-lg"
+                                    disabled={!uploadedImage || !selectedProduct || isProcessing}
+                                    className="w-full py-7 bg-primary-900 text-white rounded-[2.5rem] font-black uppercase text-lg tracking-[0.2em] shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-4 disabled:opacity-30 disabled:grayscale disabled:scale-100"
                                 >
-                                    <Sparkles className="w-5 h-5" />
-                                    Generate AI Try-On
-                                    <ArrowRight className="w-5 h-5" />
+                                    <Sparkles className="w-7 h-7 text-lavender" />
+                                    Wipe On Style
+                                    <ArrowRight className="w-7 h-7" />
                                 </button>
                             </div>
-                        )}
 
-                        {/* Info Cards */}
-                        <div className="grid md:grid-cols-3 gap-4">
-                            {[
-                                {
-                                    icon: Camera,
-                                    title: "High Quality",
-                                    description: "AI generates photorealistic results",
-                                },
-                                {
-                                    icon: Sparkles,
-                                    title: "Fast Processing",
-                                    description: "Results ready in 3-5 seconds",
-                                },
-                                {
-                                    icon: Info,
-                                    title: "100% Private",
-                                    description: "Images auto-deleted after 7 days",
-                                },
-                            ].map((info, index) => (
-                                <div key={index} className="card p-6 text-center">
-                                    <info.icon className="w-8 h-8 text-accent-600 mx-auto mb-3" />
-                                    <h3 className="font-semibold text-primary-900 mb-1">{info.title}</h3>
-                                    <p className="text-sm text-text-muted">{info.description}</p>
-                                </div>
-                            ))}
+                            {/* Gen-Z Pro Tips */}
+                            <div className="bg-peach rounded-[4rem] p-12 shadow-xl border border-white/50 space-y-6">
+                                <Zap className="w-12 h-12 text-primary-900" />
+                                <h3 className="text-3xl font-display font-black text-primary-900 tracking-tighter uppercase leading-none">PRO STYLE TIPS</h3>
+                                <ul className="space-y-4 font-bold text-primary-900/70">
+                                    <li className="flex items-center gap-3">
+                                        <div className="w-2 h-2 rounded-full bg-primary-900" />
+                                        Stand facing the light
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <div className="w-2 h-2 rounded-full bg-primary-900" />
+                                        Use a plain background
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <div className="w-2 h-2 rounded-full bg-primary-900" />
+                                        Keep hair back for shirts
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 )}
 
-                {/* Processing Step */}
+                {/* Processing Step: Hyper Visual */}
                 {step === "processing" && (
-                    <div className="max-w-2xl mx-auto text-center animate-fade-in">
-                        <div className="card p-12">
-                            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-accent-600 to-secondary-400 flex items-center justify-center mx-auto mb-6 animate-pulse">
-                                <Sparkles className="w-12 h-12 text-white" />
-                            </div>
-                            <h2 className="text-3xl font-display font-bold text-primary-900 mb-4">
-                                AI is Working Its Magic...
-                            </h2>
-                            <p className="text-text-muted mb-8">
-                                Our AI is analyzing your photo and applying the garment
-                            </p>
+                    <div className="max-w-4xl mx-auto text-center animate-fade-in py-20">
+                        <div className="bg-white rounded-[5rem] p-20 shadow-2xl relative overflow-hidden">
+                            <div className="absolute inset-0 bg-gradient-to-tr from-lavender/20 to-sky/20" />
 
-                            {/* Progress Bar */}
-                            <div className="w-full bg-gray-200 rounded-full h-3 mb-4 overflow-hidden">
-                                <div
-                                    className="h-full bg-gradient-to-r from-accent-600 to-secondary-400 transition-all duration-300 rounded-full"
-                                    style={{ width: `${progress}%` }}
-                                />
-                            </div>
-                            <div className="text-sm text-text-muted">{progress}% Complete</div>
+                            <div className="relative z-10">
+                                <div className="w-40 h-40 rounded-[3rem] bg-primary-900 flex items-center justify-center mx-auto mb-10 animate-spin-slow">
+                                    <Sparkles className="w-20 h-20 text-white" />
+                                </div>
 
-                            {/* Processing Steps */}
-                            <div className="mt-8 space-y-3 text-left max-w-md mx-auto">
-                                {[
-                                    { label: "Analyzing body pose", done: progress > 25 },
-                                    { label: "Detecting body segments", done: progress > 50 },
-                                    { label: "Applying garment", done: progress > 75 },
-                                    { label: "Enhancing quality", done: progress > 90 },
-                                ].map((step, index) => (
-                                    <div key={index} className="flex items-center gap-3">
-                                        {step.done ? (
-                                            <Check className="w-5 h-5 text-success flex-shrink-0" />
-                                        ) : (
-                                            <Loader2 className="w-5 h-5 text-accent-600 animate-spin flex-shrink-0" />
-                                        )}
-                                        <span className={step.done ? "text-success" : "text-text-muted"}>
-                                            {step.label}
-                                        </span>
+                                <h2 className="text-5xl md:text-7xl font-display font-black text-primary-900 mb-6 tracking-tighter uppercase">
+                                    WIPING <span className="italic outline-text">STYLE</span>...
+                                </h2>
+                                <p className="text-xl text-primary-900/60 font-bold uppercase tracking-widest mb-12">
+                                    AI is analyzing your vibe and applying the gear
+                                </p>
+
+                                {/* Bubbly Progress Bar */}
+                                <div className="max-w-md mx-auto">
+                                    <div className="w-full bg-primary-50 rounded-full h-8 mb-6 overflow-hidden border-4 border-white shadow-inner">
+                                        <div
+                                            className="h-full bg-primary-900 transition-all duration-500 rounded-full"
+                                            style={{ width: `${progress}%` }}
+                                        />
                                     </div>
-                                ))}
+                                    <div className="text-3xl font-display font-black text-primary-900 tracking-tighter italic">{progress}% LOADED</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* Result Step */}
+                {/* Result Step: The Glow Up */}
                 {step === "result" && result && (
-                    <div className="max-w-6xl mx-auto animate-fade-in">
-                        <div className="card p-8">
-                            <div className="flex items-center justify-between mb-8">
-                                <div>
-                                    <h2 className="text-3xl font-display font-bold text-primary-900 mb-2">
-                                        Your AI Try-On Result
+                    <div className="max-w-6xl mx-auto animate-fade-in group">
+                        <div className="bg-white rounded-[5rem] p-12 md:p-20 shadow-2xl border-8 border-white">
+                            <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
+                                <div className="text-center md:text-left">
+                                    <span className="bg-mint text-primary-900 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-4 inline-block">Glow Up Complete</span>
+                                    <h2 className="text-5xl md:text-7xl font-display font-black text-primary-900 tracking-tighter uppercase leading-none">
+                                        YOU LOOK <span className="text-accent-600 outline-text italic">FIRE</span>
                                     </h2>
-                                    <p className="text-text-muted">
-                                        Processed in {result.processingTime}s • {result.productName}
+                                    <p className="text-xl text-text-muted font-bold mt-2 uppercase tracking-tight">
+                                        Vibe match: 100% • Processed in {result.processingTime}s
                                     </p>
                                 </div>
-                                <button onClick={resetTryOn} className="btn-outline">
-                                    <RefreshCw className="w-4 h-4" />
-                                    Try Another
+                                <button onClick={resetTryOn} className="px-10 py-5 bg-primary-900 text-white rounded-[2rem] font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center gap-3">
+                                    <RefreshCw className="w-6 h-6" />
+                                    New Look
                                 </button>
                             </div>
 
-                            {/* Before/After Comparison */}
-                            <div className="grid md:grid-cols-2 gap-8 mb-8">
-                                <div>
-                                    <h3 className="text-lg font-semibold text-primary-900 mb-4">Original</h3>
-                                    <div className="relative aspect-[3/4] rounded-xl overflow-hidden">
+                            {/* Comparison: Skewed & Fun */}
+                            <div className="grid md:grid-cols-2 gap-12 mb-16">
+                                <div className="space-y-6">
+                                    <h3 className="text-2xl font-display font-black text-primary-900 uppercase tracking-tighter italic bg-primary-100 px-6 py-2 rounded-full inline-block">Before</h3>
+                                    <div className="relative aspect-[3/4] rounded-[3.5rem] overflow-hidden border-8 border-primary-50">
                                         <Image
                                             src={result.originalImage}
                                             alt="Original"
                                             fill
-                                            className="object-cover"
+                                            className="object-cover grayscale"
                                         />
                                     </div>
                                 </div>
-                                <div>
-                                    <h3 className="text-lg font-semibold text-primary-900 mb-4 flex items-center gap-2">
-                                        AI Try-On Result
-                                        <span className="badge-success">New</span>
-                                    </h3>
-                                    <div className="relative aspect-[3/4] rounded-xl overflow-hidden ring-4 ring-accent-600">
+                                <div className="space-y-6">
+                                    <h3 className="text-2xl font-display font-black text-primary-900 uppercase tracking-tighter italic bg-lavender px-6 py-2 rounded-full inline-block">The Fit</h3>
+                                    <div className="relative aspect-[3/4] rounded-[3.5rem] overflow-hidden border-8 border-lavender shadow-[0_30px_60px_-15px_rgba(216,180,254,0.5)] scale-105 skew-y-1">
                                         <Image
                                             src={result.resultImage}
                                             alt="Result"
                                             fill
                                             className="object-cover"
                                         />
-                                        <div className="absolute top-4 right-4 badge-accent">
-                                            <Sparkles className="w-3 h-3" />
-                                            AI Generated
+                                        <div className="absolute top-8 right-8 bg-primary-900 text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                                            <Sparkles className="w-4 h-4 text-lavender" />
+                                            AI Vision
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Actions */}
-                            <div className="flex flex-wrap gap-4">
-                                <Link href={`/product/${result.productId}`} className="btn-accent flex-1 sm:flex-none">
-                                    <ShoppingCart className="w-5 h-5" />
-                                    Add to Cart
+                            {/* Action Capsule */}
+                            <div className="bg-primary-50 p-10 rounded-[4rem] flex flex-wrap gap-6 items-center justify-center">
+                                <Link href={`/product/${result.productId}`} className="px-12 py-7 bg-primary-900 text-white rounded-[2.5rem] font-black uppercase text-xl tracking-widest shadow-2xl hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-4 flex-1 md:flex-none">
+                                    <ShoppingCart className="w-7 h-7" />
+                                    Cop This Look
                                 </Link>
-                                <button className="btn-outline flex-1 sm:flex-none">
-                                    <Download className="w-5 h-5" />
-                                    Download
+                                <button className="p-7 bg-white rounded-[2.5rem] text-primary-900 shadow-xl hover:bg-sky/20 transition-all">
+                                    <Download className="w-7 h-7" />
                                 </button>
-                                <button className="btn-ghost flex-1 sm:flex-none">
-                                    <Share2 className="w-5 h-5" />
-                                    Share
+                                <button className="p-7 bg-white rounded-[2.5rem] text-primary-900 shadow-xl hover:bg-lavender/20 transition-all">
+                                    <Share2 className="w-7 h-7" />
                                 </button>
                             </div>
                         </div>
                     </div>
                 )}
             </main>
+
+            <style jsx global>{`
+                .outline-text {
+                    -webkit-text-stroke: 1px #09090b;
+                    color: transparent;
+                }
+                .animate-spin-slow {
+                    animation: spin 10s linear infinite;
+                }
+                @keyframes spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+            `}</style>
         </div>
     );
 }

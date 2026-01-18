@@ -4,13 +4,12 @@ import {
   Sparkles,
   ShoppingBag,
   Zap,
-  Shield,
-  TrendingUp,
   Star,
   ArrowRight,
   Camera,
   Heart,
   Truck,
+  Shield,
   RefreshCw,
 } from "lucide-react";
 import prisma from "@/lib/prisma";
@@ -31,326 +30,322 @@ export default async function HomePage() {
   const categories = await prisma.category.findMany({
     where: { isActive: true },
     orderBy: { displayOrder: "asc" },
-    take: 4,
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-primary-50 selection:bg-lavender selection:text-primary-900">
       <Header />
 
-      {/* Modern Fashion Hero Section */}
-      <section className="relative h-[calc(100vh-72px)] flex items-center overflow-hidden">
-        {/* Hero Background */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04"
-            alt="Hero Fashion"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-950 via-primary-900/40 to-transparent" />
-        </div>
-
-        {/* Hero Content */}
-        <div className="container-custom relative z-10">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-600/20 backdrop-blur-md border border-accent-600/30 text-accent-400 mb-6">
-              <Sparkles className="w-4 h-4" />
-              <span className="text-sm font-semibold tracking-wide uppercase">New Collection 2026</span>
-            </div>
-
-            <h1 className="text-6xl md:text-8xl font-display font-bold text-white mb-6 leading-tight">
-              Elevate Your <br />
-              <span className="text-secondary-400 font-extrabold italic">Style</span> With AI
-            </h1>
-
-            <p className="text-xl text-white/80 mb-10 max-w-lg leading-relaxed">
-              Discover a curated collection of premium fashion. Experience the world's first AI Virtual Trial Room and see yourself in any outfit instantly.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/shop" className="btn-accent btn-lg group px-10">
-                <ShoppingBag className="w-5 h-5" />
-                Shop Collection
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link href="/try-on" className="btn bg-white/10 backdrop-blur-lg text-white border border-white/20 hover:bg-white/20 btn-lg px-8">
-                <Camera className="w-5 h-5" />
-                Virtual Trial Room
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-10 flex items-center gap-4 text-white/50">
-          <div className="w-px h-12 bg-white/20" />
-          <span className="text-xs uppercase tracking-widest vertical-text">Scroll to explore</span>
-        </div>
-      </section>
-
-      {/* Featured Products Section - ECOM CORE */}
-      <section className="section bg-white">
+      {/* Hero: Gen-Z Street Style */}
+      <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="container-custom">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-primary-900 mb-4">
-                Featured Arrivals
-              </h2>
-              <p className="text-xl text-text-muted">
-                Handpicked premium styles just for you
-              </p>
-            </div>
-            <Link href="/shop" className="group flex items-center gap-2 text-accent-600 font-bold hover:gap-3 transition-all">
-              View All Products
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredProducts.map((product) => (
-              <Link key={product.id} href={`/product/${product.id}`} className="group space-y-4">
-                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 shadow-sm group-hover:shadow-xl transition-all duration-500">
-                  {product.images?.[0]?.url ? (
-                    <Image
-                      src={product.images[0].url}
-                      alt={product.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-4xl">🧥</div>
-                  )}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary-900 hover:text-accent-600 transition-colors">
-                      <Heart className="w-5 h-5" />
-                    </button>
-                  </div>
-                  <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <button className="w-full btn-primary btn-sm py-3 rounded-xl backdrop-blur-md">
-                      Quick View
-                    </button>
-                  </div>
-                </div>
-                <div className="text-center md:text-left">
-                  <h3 className="text-lg font-bold text-primary-900 group-hover:text-accent-600 transition-colors mb-1">
-                    {product.name}
-                  </h3>
-                  <p className="text-text-muted text-sm mb-2">{product.brand}</p>
-                  <div className="text-xl font-display font-extrabold text-primary-900">
-                    ₹{Number(product.basePrice).toLocaleString()}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Categories Showcase */}
-      <section className="section bg-primary-50">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-primary-900 mb-4">
-              Browse Collections
-            </h2>
-            <p className="text-xl text-text-muted max-w-2xl mx-auto">
-              Shop the latest trends by category
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((category) => (
-              <Link
-                key={category.id}
-                href={`/shop?category=${category.slug}`}
-                className="group relative h-96 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500"
-              >
-                {category.imageUrl ? (
-                  <Image
-                    src={category.imageUrl}
-                    alt={category.name}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                ) : (
-                  <div className="absolute inset-0 bg-primary-200" />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-900 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
-                <div className="absolute inset-x-0 bottom-0 p-8 text-white">
-                  <h3 className="text-3xl font-display font-bold mb-2">{category.name}</h3>
-                  <p className="text-white/70 mb-4 line-clamp-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    {category.description}
-                  </p>
-                  <div className="flex items-center gap-2 font-bold tracking-wider uppercase text-sm">
-                    <span>Shop Now</span>
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* AI Trial Feature Section - UNIQUE USP */}
-      <section className="section bg-primary-950 overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-accent-600/10 blur-[120px] rounded-full" />
-        <div className="container-custom relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary-400/10 border border-secondary-400/20 text-secondary-400">
-                <Zap className="w-4 h-4" />
-                <span className="text-sm font-bold uppercase tracking-widest">World's First AI Fashion Tech</span>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative z-10 space-y-8 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-lavender/30 border border-lavender/50 text-primary-900 animate-bounce">
+                <Sparkles className="w-5 h-5 text-accent-600" />
+                <span className="text-sm font-black uppercase tracking-widest">Next-Gen Fashion</span>
               </div>
-              <h2 className="text-5xl md:text-7xl font-display font-bold text-white leading-tight">
-                Try On Clothes <br />
-                <span className="text-accent-500">Virtually</span>
-              </h2>
-              <p className="text-xl text-white/70 leading-relaxed">
-                Stop guessing your size or how a color looks on you. Our proprietary AI analyzes your body shape and applies the garment realistically in seconds.
+
+              <h1 className="text-7xl md:text-9xl font-display font-black text-primary-900 leading-[0.85] tracking-tighter">
+                FUTURE <br />
+                <span className="text-accent-600 italic">STYLE</span> <br />
+                <span className="bg-gradient-to-r from-secondary-500 to-lavender bg-clip-text text-transparent">NOW.</span>
+              </h1>
+
+              <p className="text-xl text-text-muted max-w-lg mx-auto lg:mx-0 font-medium leading-relaxed">
+                Coolest drops for the coolest kids. Real-time AI Try-On included. No more guessing, just pure swag.
               </p>
 
-              <ul className="space-y-4">
-                {[
-                  "100% Photorealistic Results",
-                  "Fits your body proportions exactly",
-                  "Compare different styles instantly",
-                  "Secure & Private - Images auto-deleted"
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-white/90">
-                    <div className="w-6 h-6 rounded-full bg-accent-600 flex items-center justify-center text-white scale-75">
-                      <Star className="w-4 h-4 fill-current" />
-                    </div>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="pt-4">
-                <Link href="/try-on" className="btn-accent btn-lg inline-flex group">
-                  <Camera className="w-5 h-5" />
-                  Experience Virtual Room
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+                <Link href="/shop" className="px-10 py-5 bg-primary-900 text-white rounded-[2rem] font-black text-lg hover:scale-105 active:scale-95 transition-all shadow-2xl flex items-center gap-3 group">
+                  Start Exploring
+                  <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link href="/try-on" className="px-10 py-5 bg-white border-4 border-primary-900 text-primary-900 rounded-[2rem] font-black text-lg hover:bg-primary-900 hover:text-white transition-all shadow-xl flex items-center gap-3">
+                  <Camera className="w-6 h-6" />
+                  AI Try-On
                 </Link>
               </div>
             </div>
 
-            <div className="relative">
-              <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden border-8 border-white/5 shadow-2xl">
+            <div className="relative lg:h-[700px]">
+              <div className="absolute top-10 right-10 w-[80%] h-[90%] bg-mint/40 rounded-[4rem] -rotate-3 -z-10" />
+              <div className="absolute top-20 right-20 w-[80%] h-[90%] bg-lavender/40 rounded-[4rem] rotate-3 -z-10" />
+
+              <div className="relative h-full w-full rounded-[3.5rem] overflow-hidden border-8 border-white shadow-2xl skew-y-1">
                 <Image
-                  src="https://images.unsplash.com/photo-1483985988355-763728e1935b"
-                  alt="AI Try On Mockup"
+                  src="https://images.unsplash.com/photo-1519457431-75514f775240"
+                  alt="Gen-Z Fashion"
                   fill
                   className="object-cover"
+                  priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-950/80 to-transparent flex items-end p-8">
-                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 w-full animate-pulse-slow">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-full bg-accent-600 flex items-center justify-center text-white">
-                        <Sparkles className="w-6 h-6" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="h-2 w-24 bg-white/40 rounded mb-2" />
-                        <div className="h-2 w-16 bg-white/20 rounded" />
-                      </div>
-                    </div>
-                    <div className="space-y-3">
-                      <div className="h-1 w-full bg-white/10 rounded" />
-                      <div className="h-1 w-4/5 bg-white/10 rounded" />
-                    </div>
-                  </div>
+
+                {/* Floating Badge */}
+                <div className="absolute bottom-10 left-10 bg-white/40 backdrop-blur-md p-6 rounded-3xl border border-white/50 max-w-[200px]">
+                  <p className="text-xs font-black text-primary-900 uppercase tracking-tighter mb-1">Status</p>
+                  <p className="text-xl font-display font-black text-primary-900 leading-none italic uppercase">Verified Cool</p>
                 </div>
               </div>
-              {/* Decorative Elements */}
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-secondary-400/20 rounded-full blur-3xl" />
-              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-accent-600/20 rounded-full blur-3xl" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Trust Badges */}
-      <section className="py-12 bg-white border-y border-gray-100">
+      {/* Bento Grid: Categories */}
+      <section className="section py-24">
         <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { icon: Truck, title: "Free Shipping", text: "On orders over ₹999" },
-              { icon: Shield, title: "Secure Payment", text: "100% encrypted checkout" },
-              { icon: RefreshCw, title: "Easy Returns", text: "30-day return policy" },
-              { icon: Star, title: "Premium Quality", text: "Certified fashion brands" },
-            ].map((badge, i) => (
-              <div key={i} className="flex flex-col items-center text-center space-y-2">
-                <badge.icon className="w-8 h-8 text-accent-600" />
-                <h4 className="font-bold text-primary-900">{badge.title}</h4>
-                <p className="text-xs text-text-muted uppercase tracking-widest font-semibold">{badge.text}</p>
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-5xl font-display font-black text-primary-900 tracking-tighter">PICK YOUR VIBE</h2>
+            <div className="hidden md:block h-3 flex-1 bg-primary-900/5 mx-8 rounded-full" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-[800px] md:h-[600px]">
+            {/* Main Bento Item */}
+            <Link
+              href={`/shop?category=${categories[0]?.slug}`}
+              className="md:col-span-7 relative group rounded-[3rem] overflow-hidden shadow-xl"
+            >
+              <Image src={categories[0]?.imageUrl || ""} alt={categories[0]?.name || ""} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary-900/60 via-transparent to-transparent" />
+              <div className="absolute bottom-10 left-10 text-white">
+                <span className="bg-accent-600 text-white px-4 py-1 rounded-full text-xs font-black uppercase mb-4 inline-block">Hot Now</span>
+                <h3 className="text-5xl font-display font-black tracking-tighter uppercase leading-none">{categories[0]?.name}</h3>
+                <p className="mt-2 text-white/80 font-medium">Checkout the latest drops</p>
+              </div>
+            </Link>
+
+            {/* Smaller Bento Item 1 */}
+            <Link
+              href={`/shop?category=${categories[1]?.slug}`}
+              className="md:col-span-5 relative group rounded-[3rem] overflow-hidden shadow-xl bg-lavender"
+            >
+              <Image src={categories[1]?.imageUrl || ""} alt={categories[1]?.name || ""} fill className="object-cover mix-blend-overlay opacity-80 group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 flex items-center justify-center text-center p-8">
+                <h3 className="text-4xl font-display font-black text-primary-900 leading-none tracking-tighter uppercase">{categories[1]?.name}</h3>
+              </div>
+            </Link>
+
+            {/* Smaller Bento Item 2 */}
+            <Link
+              href={`/shop?category=${categories[2]?.slug}`}
+              className="md:col-span-5 relative group rounded-[3rem] overflow-hidden shadow-xl bg-peach"
+            >
+              <Image src={categories[2]?.imageUrl || ""} alt={categories[2]?.name || ""} fill className="object-cover mix-blend-overlay group-hover:scale-110 transition-transform duration-700" />
+              <div className="absolute inset-x-8 bottom-8">
+                <h3 className="text-3xl font-display font-black text-primary-900 leading-none tracking-tighter uppercase">{categories[2]?.name}</h3>
+              </div>
+            </Link>
+
+            {/* Smaller Bento Item 3 */}
+            <Link
+              href={`/shop?category=${categories[3]?.slug}`}
+              className="md:col-span-7 relative group rounded-[3rem] overflow-hidden shadow-xl bg-mint"
+            >
+              <Image src={categories[3]?.imageUrl || ""} alt={categories[3]?.name || ""} fill className="object-cover mix-blend-multiply opacity-40 group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 flex flex-col justify-center p-12">
+                <h3 className="text-4xl font-display font-black text-primary-900 leading-none tracking-tighter uppercase">{categories[3]?.name}</h3>
+                <p className="text-primary-900/70 font-bold mt-2">Essential street gear</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Product Highlight: The Gen-Z Way */}
+      <section className="section py-24 bg-white rounded-[5rem] shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.1)]">
+        <div className="container-custom">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div className="space-y-4">
+              <h2 className="text-6xl font-display font-black text-primary-900 tracking-tighter">LATEST DROPS</h2>
+              <p className="text-xl text-text-muted font-bold italic underline decoration-lavender decoration-4 underline-offset-8">
+                Your wardrobe is about to get an upgrade
+              </p>
+            </div>
+            <Link href="/shop" className="group flex items-center gap-3 bg-primary-100 px-8 py-4 rounded-full font-black text-primary-900 hover:bg-lavender transition-all">
+              View All
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+            {featuredProducts.map((product) => (
+              <div key={product.id} className="group flex flex-col">
+                <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-500 mb-6">
+                  <Link href={`/product/${product.id}`} className="block h-full">
+                    {product.images?.[0]?.url ? (
+                      <Image
+                        src={product.images[0].url}
+                        alt={product.name}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center text-4xl">🧥</div>
+                    )}
+                  </Link>
+
+                  {/* AI Quick Try Button */}
+                  <Link
+                    href={`/try-on?productId=${product.id}`}
+                    className="absolute bottom-4 left-4 right-4 bg-white/70 backdrop-blur-xl border border-white/40 py-4 px-6 rounded-2xl flex items-center justify-center gap-3 shadow-lg opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-white"
+                  >
+                    <Sparkles className="w-5 h-5 text-accent-600" />
+                    <span className="text-sm font-black text-primary-900 uppercase">Try it on AI</span>
+                  </Link>
+
+                  <button className="absolute top-4 right-4 w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-primary-900 hover:bg-accent-600 hover:text-white transition-all shadow-md">
+                    <Heart className="w-6 h-6" />
+                  </button>
+                </div>
+
+                <div className="px-2 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-black text-accent-600 uppercase tracking-widest">{product.brand}</p>
+                    <div className="text-xl font-display font-black text-primary-900">
+                      ₹{Number(product.basePrice).toLocaleString()}
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-display font-black text-primary-900 tracking-tight leading-tight uppercase truncate">
+                    {product.name}
+                  </h3>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-primary-950 text-white py-20">
-        <div className="container-custom">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-            <div className="space-y-6">
-              <h3 className="text-3xl font-display font-bold">AURA FIT</h3>
-              <p className="text-white/60 leading-relaxed">
-                Redefining the digital fashion experience through cutting-edge AI and premium curation.
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-accent-600 transition-all cursor-pointer">
-                  <Heart className="w-5 h-5" />
+      {/* AI Virtual Room Promo: Hyper Gen-Z */}
+      <section className="section py-32 overflow-hidden bg-primary-900 text-white relative">
+        <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
+
+        <div className="container-custom relative z-10">
+          <div className="bg-lavender p-1 md:p-12 rounded-[5rem] overflow-hidden relative">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="p-8 md:p-12 space-y-8 order-2 lg:order-1">
+                <div className="inline-block px-4 py-1 bg-primary-900 text-white rounded-full text-xs font-black uppercase tracking-widest leading-none">The Future is Here</div>
+                <h2 className="text-6xl md:text-8xl font-display font-black text-primary-900 tracking-tighter leading-[0.85] uppercase">
+                  SEE IT. <br />
+                  <span className="italic outline-text">TRY IT.</span> <br />
+                  LOVE IT.
+                </h2>
+                <p className="text-xl text-primary-900/80 font-bold max-w-sm">
+                  Stop guessing sizes. Our AI shows you the fit instantly. It's basically magic for your wardrobe.
+                </p>
+                <Link href="/try-on" className="px-10 py-5 bg-primary-900 text-white rounded-[2rem] font-black text-lg hover:scale-105 transition-all shadow-2xl inline-flex items-center gap-3">
+                  Enter Virtual Room
+                  <Camera className="w-6 h-6" />
+                </Link>
+              </div>
+
+              <div className="relative h-[400px] md:h-[600px] order-1 lg:order-2">
+                <div className="absolute inset-10 bg-mint rounded-[4rem] rotate-12 blur-3xl opacity-50" />
+                <div className="relative h-full w-full rounded-[3rem] overflow-hidden border-4 border-primary-900">
+                  <Image
+                    src="https://images.unsplash.com/photo-1621451537084-482c73073a0f"
+                    alt="AI Try On"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-primary-900/20 flex items-center justify-center backdrop-blur-[2px]">
+                    <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center animate-ping text-primary-900">
+                      <Sparkles className="w-10 h-10" />
+                    </div>
+                  </div>
                 </div>
-                {/* Social icons would go here */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust & Services */}
+      <section className="py-24 border-t border-primary-900/5">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              { icon: Truck, title: "FASTEST SHIPPING", text: "Across India, no questions asked.", color: "bg-sky/20" },
+              { icon: Shield, title: "SAFE AF CHECKOUT", text: "Encrypted, secure, and worry-free.", color: "bg-mint/30" },
+              { icon: RefreshCw, title: "EZ 30-DAY RETURNS", text: "Didn't vibe? Send it back.", color: "bg-lavender/30" },
+            ].map((item, i) => (
+              <div key={i} className={`p-10 rounded-[3rem] ${item.color} space-y-6 group hover:scale-105 transition-all`}>
+                <item.icon className="w-12 h-12 text-primary-900" />
+                <div className="space-y-2">
+                  <h4 className="text-2xl font-display font-black text-primary-900 tracking-tight uppercase leading-none">{item.title}</h4>
+                  <p className="text-primary-900/60 font-bold">{item.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer: Gen-Z Minimalist */}
+      <footer className="bg-white pt-32 pb-12 rounded-t-[5rem] shadow-[0_-10px_50px_rgba(0,0,0,0.05)] border-t border-gray-100">
+        <div className="container-custom">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
+            <div className="space-y-8">
+              <h3 className="text-4xl font-display font-black text-primary-900 tracking-tighter italic uppercase">AURA FIT</h3>
+              <p className="font-medium text-text-muted leading-relaxed">
+                Reimagining the fashion experience for the next generation. Style powered by AI. Experience redefined.
+              </p>
+              <div className="flex gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-primary-100 flex items-center justify-center hover:bg-lavender transition-all cursor-pointer">
+                  <Star className="w-6 h-6" />
+                </div>
               </div>
             </div>
 
-            <div>
-              <h4 className="text-lg font-bold mb-6">Explore</h4>
-              <ul className="space-y-4 text-white/50">
-                <li><Link href="/shop" className="hover:text-white transition-colors">Latest Drops</Link></li>
-                <li><Link href="/shop?category=men" className="hover:text-white transition-colors">Men's Fashion</Link></li>
-                <li><Link href="/shop?category=women" className="hover:text-white transition-colors">Women's Collection</Link></li>
-                <li><Link href="/try-on" className="hover:text-white transition-colors">Virtual Room</Link></li>
+            <div className="space-y-8">
+              <h4 className="text-xl font-display font-black uppercase text-primary-900 tracking-wider">The Store</h4>
+              <ul className="space-y-4 font-bold text-text-muted">
+                <li><Link href="/shop" className="hover:text-accent-600 transition-colors">Latest Drops</Link></li>
+                <li><Link href="/shop?category=girls" className="hover:text-accent-600 transition-colors">Girls Collection</Link></li>
+                <li><Link href="/shop?category=boys" className="hover:text-accent-600 transition-colors">Boys Street</Link></li>
+                <li><Link href="/try-on" className="hover:text-accent-600 transition-colors">Virtual Room</Link></li>
               </ul>
             </div>
 
-            <div>
-              <h4 className="text-lg font-bold mb-6">Customer Care</h4>
-              <ul className="space-y-4 text-white/50">
-                <li><Link href="/help" className="hover:text-white transition-colors">Track Order</Link></li>
-                <li><Link href="/shipping" className="hover:text-white transition-colors">Shipping Policy</Link></li>
-                <li><Link href="/returns" className="hover:text-white transition-colors">Returns & Refunds</Link></li>
-                <li><Link href="/size-guide" className="hover:text-white transition-colors">Size Guide</Link></li>
+            <div className="space-y-8">
+              <h4 className="text-xl font-display font-black uppercase text-primary-900 tracking-wider">Support</h4>
+              <ul className="space-y-4 font-bold text-text-muted">
+                <li><Link href="/help" className="hover:text-accent-600 transition-colors">Track Order</Link></li>
+                <li><Link href="/returns" className="hover:text-accent-600 transition-colors">Returns</Link></li>
+                <li><Link href="/shipping" className="hover:text-accent-600 transition-colors">Shipping</Link></li>
               </ul>
             </div>
 
-            <div className="space-y-6">
-              <h4 className="text-lg font-bold">Newsletter</h4>
-              <p className="text-white/50 text-sm">Join the AURA circle for exclusive drops and AI fashion insights.</p>
-              <div className="flex gap-2">
+            <div className="space-y-8">
+              <h4 className="text-xl font-display font-black uppercase text-primary-900 tracking-wider">Don't Miss Out</h4>
+              <div className="relative group">
                 <input
                   type="email"
-                  placeholder="Your email"
-                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-accent-600"
+                  placeholder="your@email.com"
+                  className="w-full bg-primary-50 border-none rounded-2xl py-5 px-6 font-bold focus:ring-4 focus:ring-lavender/50 outline-none transition-all"
                 />
-                <button className="bg-white text-primary-900 rounded-xl px-4 font-bold text-sm">Join</button>
+                <button className="absolute right-2 top-2 bottom-2 bg-primary-900 text-white px-6 rounded-xl font-black text-sm">Join</button>
               </div>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-white/40 text-sm">
-            <p>&copy; 2026 AURA FIT. All rights reserved.</p>
+          <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6 text-text-muted/60 text-[10px] font-black uppercase tracking-[0.2em]">
+            <p>&copy; 2026 AURA FIT. No boundaries.</p>
             <div className="flex gap-8">
-              <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
-              <Link href="/terms" className="hover:text-white">Terms of Service</Link>
+              <Link href="/privacy" className="hover:text-primary-900">Privacy</Link>
+              <Link href="/terms" className="hover:text-primary-900">Terms</Link>
             </div>
           </div>
         </div>
       </footer>
+
+      {/* Tailwind Utility for outline text */}
+      <style jsx global>{`
+        .outline-text {
+          -webkit-text-stroke: 2px #09090b;
+          color: transparent;
+        }
+      `}</style>
     </div>
   );
 }

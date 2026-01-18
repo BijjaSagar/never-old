@@ -3,46 +3,35 @@
 /* AURA FIT - Global Styles */
 
 @theme {
-  /* Brand Colors */
-  --color-primary-50: #f8fafc;
-  --color-primary-100: #f1f5f9;
-  --color-primary-200: #e2e8f0;
-  --color-primary-300: #cbd5e1;
-  --color-primary-400: #94a3b8;
-  --color-primary-500: #64748b;
-  --color-primary-600: #475569;
-  --color-primary-700: #334155;
-  --color-primary-800: #1e293b;
-  --color-primary-900: #0f172a;
-  --color-primary-950: #020617;
+  /* Gen-Z Cool Kids Palette */
+  --color-primary-50: #fafafa;
+  --color-primary-100: #f4f4f5;
+  --color-primary-900: #09090b;
 
-  --color-accent-50: #fef2f2;
-  --color-accent-100: #fee2e2;
-  --color-accent-200: #fecaca;
-  --color-accent-300: #fca5a5;
-  --color-accent-400: #f87171;
-  --color-accent-500: #ef4444;
-  --color-accent-600: #e11d48;
-  --color-accent-700: #be123c;
-  --color-accent-800: #9f1239;
-  --color-accent-900: #881337;
-  --color-accent-950: #4c0519;
+  /* Playful Vibrant Colors */
+  --color-lavender: #d8b4fe;
+  --color-mint: #99f6e4;
+  --color-peach: #ffedd5;
+  --color-canary: #fef08a;
+  --color-sky: #bae6fd;
 
-  --color-secondary-50: #ecfeff;
-  --color-secondary-100: #cffafe;
-  --color-secondary-200: #a5f3fc;
-  --color-secondary-300: #67e8f9;
-  --color-secondary-400: #22d3ee;
-  --color-secondary-500: #06b6d4;
-  --color-secondary-600: #0891b2;
-  --color-secondary-700: #0e7490;
-  --color-secondary-800: #155e75;
-  --color-secondary-900: #164e63;
-  --color-secondary-950: #083344;
+  --color-accent-500: #fb7185;
+  /* Soft Rose */
+  --color-accent-600: #f43f5e;
+  /* Vibrant Rose */
 
-  /* Font Families */
+  --color-secondary-400: #38bdf8;
+  /* Cyber Blue */
+  --color-secondary-500: #0ea5e9;
+
+  /* Typography */
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-display: var(--font-outfit), system-ui, sans-serif;
+
+  /* Border Radius - Gen-Z "Bubble" aesthetic */
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-3xl: 3rem;
 }
 
 /* Base Styles */

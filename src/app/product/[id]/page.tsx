@@ -2,20 +2,19 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import {
-    ShoppingCart,
-    Camera,
+    ShoppingBag,
     Heart,
     Share2,
     Star,
-    Truck,
+    Camera,
     Shield,
     RefreshCw,
     ChevronRight,
     Check,
-    Sparkles
+    Sparkles,
+    Zap
 } from 'lucide-react'
 import prisma from '@/lib/prisma'
-
 import Header from '@/components/layout/Header'
 
 export default async function ProductPage({ params }: { params: { id: string } }) {
@@ -37,200 +36,240 @@ export default async function ProductPage({ params }: { params: { id: string } }
     const primaryImage = product.images.find(img => img.isPrimary)?.url || product.images[0]?.url
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-primary-50 selection:bg-mint selection:text-primary-900">
             <Header />
 
-            <main className="container-custom py-8">
-                {/* Breadcrumbs */}
-                <nav className="flex items-center gap-2 text-sm text-text-muted mb-8">
-                    <Link href="/" className="hover:text-primary-900">Home</Link>
-                    <ChevronRight className="w-4 h-4" />
-                    <Link href="/shop" className="hover:text-primary-900">Shop</Link>
-                    <ChevronRight className="w-4 h-4" />
-                    <span className="text-primary-900 font-medium truncate">{product.name}</span>
+            <main className="container-custom pt-40 pb-20">
+                {/* Breadcrumbs: Bubbly Style */}
+                <nav className="flex items-center gap-3 mb-10 overflow-x-auto pb-4 no-scrollbar">
+                    <Link href="/" className="px-5 py-2 bg-white rounded-full text-xs font-black uppercase tracking-widest text-text-muted hover:text-primary-900 shadow-sm">Home</Link>
+                    <ChevronRight className="w-4 h-4 text-primary-900/20 shrink-0" />
+                    <Link href="/shop" className="px-5 py-2 bg-white rounded-full text-xs font-black uppercase tracking-widest text-text-muted hover:text-primary-900 shadow-sm">The Drop</Link>
+                    <ChevronRight className="w-4 h-4 text-primary-900/20 shrink-0" />
+                    <span className="px-5 py-2 bg-lavender rounded-full text-xs font-black uppercase tracking-widest text-primary-900 shadow-sm whitespace-nowrap">{product.name}</span>
                 </nav>
 
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-                    {/* Left: Image Gallery */}
-                    <div className="space-y-4">
-                        <div className="relative aspect-[3/4] rounded-3xl overflow-hidden bg-gray-50 border border-gray-100">
-                            {primaryImage ? (
-                                <Image
-                                    src={primaryImage}
-                                    alt={product.name}
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                />
-                            ) : (
-                                <div className="absolute inset-0 flex items-center justify-center text-6xl">🧥</div>
-                            )}
-                            {/* AI Watermark */}
-                            <div className="absolute bottom-6 right-6 px-4 py-2 rounded-xl bg-white/20 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest">
-                                Premium Quality
+                <div className="grid lg:grid-cols-2 gap-16">
+                    {/* Visuals: Adventure Layout */}
+                    <div className="space-y-6">
+                        <div className="relative aspect-[4/5] rounded-[4rem] overflow-hidden shadow-2xl bg-white border-8 border-white group">
+                            <Image
+                                src={primaryImage}
+                                alt={product.name}
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                            <div className="absolute top-8 left-8">
+                                <span className="bg-primary-900 text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-lg">New Season</span>
                             </div>
+                            <button className="absolute bottom-8 right-8 w-16 h-16 bg-white rounded-3xl flex items-center justify-center text-primary-900 shadow-2xl hover:bg-accent-600 hover:text-white transition-all">
+                                <Heart className="w-8 h-8" />
+                            </button>
                         </div>
 
-                        {/* Thumbnails */}
-                        <div className="grid grid-cols-4 gap-4">
-                            {product.images.map((img, i) => (
-                                <div key={i} className={`relative aspect-square rounded-xl overflow-hidden cursor-pointer border-2 transition-all ${img.url === primaryImage ? 'border-accent-600' : 'border-transparent hover:border-gray-200'}`}>
-                                    <Image
-                                        src={img.url}
-                                        alt={`${product.name} ${i}`}
-                                        fill
-                                        className="object-cover"
-                                    />
+                        {/* Secondary Gallery */}
+                        <div className="grid grid-cols-3 gap-6">
+                            {product.images.slice(0, 3).map((img, i) => (
+                                <div key={i} className="relative aspect-square rounded-[2rem] overflow-hidden border-4 border-white shadow-lg cursor-pointer hover:scale-105 transition-all">
+                                    <Image src={img.url} alt={`Gallery ${i}`} fill className="object-cover" />
+                                </div>
+                            ))}
+                            {/* Empty gallery slots */}
+                            {Array.from({ length: Math.max(0, 3 - product.images.length) }).map((_, i) => (
+                                <div key={`empty-${i}`} className="aspect-square rounded-[2rem] bg-gray-100 flex items-center justify-center text-gray-300 border-4 border-white shadow-inner">
+                                    <Zap className="w-8 h-8" />
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    {/* Right: Product Info */}
-                    <div className="space-y-8">
-                        <div>
-                            <div className="flex items-center gap-2 text-accent-600 font-bold text-sm uppercase tracking-widest mb-4">
-                                <Sparkles className="w-4 h-4" />
-                                {product.brand}
-                            </div>
-                            <h1 className="text-4xl md:text-5xl font-display font-bold text-primary-900 mb-4 leading-tight">
-                                {product.name}
-                            </h1>
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="flex items-center gap-1 text-amber-500">
-                                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 h-4 fill-current" />)}
-                                </div>
-                                <span className="text-sm text-text-muted">(24 Reviews)</span>
-                            </div>
-                            <div className="flex items-baseline gap-4">
-                                <span className="text-4xl font-display font-extrabold text-primary-900">
-                                    ₹{Number(product.basePrice).toLocaleString()}
-                                </span>
-                                {product.salePrice && (
-                                    <span className="text-xl text-text-muted line-through">
-                                        ₹{Number(product.salePrice).toLocaleString()}
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Variants (Size/Color) */}
-                        <div className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-bold text-primary-900 uppercase tracking-wider mb-3">
-                                    Select Size
-                                </label>
-                                <div className="flex flex-wrap gap-3">
-                                    {Array.from(new Set(product.variants.map(v => v.size))).map(size => (
-                                        <button key={size} className="w-14 h-14 rounded-xl border-2 border-gray-100 flex items-center justify-center font-bold text-primary-900 hover:border-accent-600 transition-all">
-                                            {size}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-bold text-primary-900 uppercase tracking-wider mb-3">
-                                    Color
-                                </label>
-                                <div className="flex flex-wrap gap-3">
-                                    {Array.from(new Set(product.variants.map(v => v.color))).map(color => (
-                                        <button key={color} className="group p-1 rounded-full border-2 border-transparent hover:border-accent-600 transition-all">
-                                            <div
-                                                className="w-8 h-8 rounded-full border border-gray-100"
-                                                style={{ backgroundColor: color.toLowerCase() }}
-                                                title={color}
-                                            />
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Primary Actions */}
-                        <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                            <button className="flex-1 btn-primary btn-lg py-5 rounded-2xl flex items-center justify-center gap-3">
-                                <ShoppingCart className="w-6 h-6" />
-                                Add to Shopping Bag
-                            </button>
-                            <Link href={`/try-on?productId=${product.id}`} className="flex-1 btn-accent btn-lg py-5 rounded-2xl flex items-center justify-center gap-3">
-                                <Camera className="w-6 h-6" />
-                                Virtual Try-On
-                            </Link>
-                        </div>
-
-                        {/* Secondary Actions */}
-                        <div className="flex items-center gap-8 pt-2">
-                            <button className="flex items-center gap-2 text-primary-900 font-bold text-sm hover:text-accent-600 transition-colors">
-                                <Heart className="w-5 h-5" />
-                                Save to Wishlist
-                            </button>
-                            <button className="flex items-center gap-2 text-primary-900 font-bold text-sm hover:text-accent-600 transition-colors">
-                                <Share2 className="w-5 h-5" />
-                                Share Product
-                            </button>
-                        </div>
-
-                        <hr className="border-gray-100" />
-
-                        {/* Description */}
-                        <div className="space-y-4">
-                            <h3 className="text-lg font-bold text-primary-900">Product Details</h3>
-                            <p className="text-text-muted leading-relaxed">
-                                {product.description}
-                            </p>
-                        </div>
-
-                        {/* Benefits */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-                            {[
-                                { icon: Truck, label: "Free Shipping", sub: "On orders above ₹999" },
-                                { icon: RefreshCw, label: "Easy Returns", sub: "30-day hassle-free" },
-                                { icon: Shield, label: "Secure", sub: "100% genuine products" },
-                            ].map((b, i) => (
-                                <div key={i} className="flex gap-4 items-start">
-                                    <div className="p-2 rounded-lg bg-primary-50">
-                                        <b.icon className="w-5 h-5 text-primary-600" />
+                    {/* Details: Hyper Content */}
+                    <div className="flex flex-col">
+                        <div className="flex-1 space-y-10">
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-4">
+                                    <span className="text-sm font-black text-accent-600 uppercase tracking-widest italic bg-accent-600/10 px-4 py-1 rounded-full">{product.brand}</span>
+                                    <div className="flex text-canary">
+                                        {[1, 2, 3, 4, 5].map(s => <Star key={s} className="w-4 h-4 fill-current" />)}
                                     </div>
-                                    <div>
-                                        <div className="font-bold text-primary-900 text-sm">{b.label}</div>
-                                        <div className="text-xs text-text-muted">{b.sub}</div>
+                                    <span className="text-xs font-black text-text-muted">(12 VIBE REVIEWS)</span>
+                                </div>
+                                <h1 className="text-6xl md:text-8xl font-display font-black text-primary-900 tracking-tighter leading-[0.85] uppercase">
+                                    {product.name.split(' ').map((word, i) => (
+                                        <span key={i} className={i % 2 !== 0 ? 'text-accent-600 italic outline-text' : ''}>
+                                            {word}{' '}
+                                        </span>
+                                    ))}
+                                </h1>
+                                <div className="text-5xl font-display font-black text-primary-900">
+                                    ₹{Number(product.basePrice).toLocaleString()}
+                                </div>
+                                <p className="text-xl text-text-muted font-bold leading-relaxed max-w-xl italic">
+                                    "{product.description}"
+                                </p>
+                            </div>
+
+                            <hr className="border-primary-900/5" />
+
+                            {/* AI TRIAL ROOM CTA: MAGICAL */}
+                            <div className="bg-gradient-to-br from-lavender to-sky p-10 rounded-[4rem] shadow-2xl relative overflow-hidden group">
+                                <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
+                                <div className="relative z-10 space-y-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-primary-900 shadow-xl">
+                                            <Sparkles className="w-8 h-8 text-accent-600 animate-pulse" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-2xl font-display font-black text-primary-900 leading-none">VIRTUAL TRY-ON</h3>
+                                            <p className="text-primary-900/60 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">POWERED BY AURA AI</p>
+                                        </div>
+                                    </div>
+                                    <p className="font-bold text-primary-900 leading-snug">Unsure about the fit? See it on your kid virtually before buying. It’s magic.</p>
+                                    <Link
+                                        href={`/try-on?productId=${product.id}`}
+                                        className="w-full py-5 bg-primary-900 text-white rounded-3xl font-black uppercase text-sm tracking-[0.2em] shadow-2xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
+                                    >
+                                        <Camera className="w-5 h-5" />
+                                        Launch AI Fitting Room
+                                    </Link>
+                                </div>
+                            </div>
+
+                            {/* Selectors: Bubbly */}
+                            <div className="space-y-8">
+                                <div className="space-y-4">
+                                    <div className="flex justify-between items-center px-2">
+                                        <h4 className="text-sm font-black uppercase tracking-widest text-primary-900">Select Vibe Size</h4>
+                                        <button className="text-[10px] font-black uppercase tracking-widest text-accent-600 underline">Size Guide</button>
+                                    </div>
+                                    <div className="flex flex-wrap gap-4">
+                                        {['S', 'M', 'L', 'XL'].map((size) => (
+                                            <button
+                                                key={size}
+                                                className={`w-16 h-16 rounded-2xl flex items-center justify-center font-black text-xl border-4 transition-all ${size === 'M'
+                                                        ? 'bg-primary-900 border-primary-900 text-white shadow-xl scale-110'
+                                                        : 'bg-white border-transparent text-primary-900 hover:border-lavender'
+                                                    }`}
+                                            >
+                                                {size}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <h4 className="text-sm font-black uppercase tracking-widest text-primary-900 text-left px-2">Color Palette</h4>
+                                    <div className="flex flex-wrap gap-4">
+                                        {['bg-primary-900', 'bg-lavender', 'bg-mint', 'bg-sky'].map((color, i) => (
+                                            <button
+                                                key={i}
+                                                className={`w-12 h-12 rounded-full border-4 ${color === 'bg-primary-900' ? 'border-primary-900 ring-4 ring-primary-900/20 shadow-lg' : 'border-white'}`}
+                                            >
+                                                <div className={`w-full h-full rounded-full ${color}`} />
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Final CTAs */}
+                            <div className="flex flex-col sm:flex-row gap-6 pt-6">
+                                <button className="flex-1 py-7 bg-primary-900 text-white rounded-[2.5rem] font-black uppercase text-lg tracking-widest shadow-[0_20px_40px_rgba(0,0,0,0.2)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-4">
+                                    <ShoppingBag className="w-6 h-6" />
+                                    Add to Closet
+                                </button>
+                                <button className="p-7 bg-white border-4 border-primary-900 text-primary-900 rounded-[2.5rem] shadow-xl hover:bg-primary-900 hover:text-white transition-all group">
+                                    <Share2 className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* High-End Trust Badges */}
+                        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            {[
+                                { icon: Truck, title: "Super Sonic Delivery", text: "2-3 business days max." },
+                                { icon: RefreshCw, title: "Zero Stress Returns", text: "30-day window, free of charge." },
+                            ].map((badge, i) => (
+                                <div key={i} className="flex items-center gap-6 p-8 bg-white border border-gray-100 rounded-[3rem] shadow-sm">
+                                    <div className="w-14 h-14 bg-primary-50 rounded-2xl flex items-center justify-center text-primary-900 shrink-0">
+                                        <badge.icon className="w-7 h-7" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="text-sm font-black uppercase text-primary-900 leading-none">{badge.title}</h4>
+                                        <p className="text-xs font-bold text-text-muted">{badge.text}</p>
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Technical Details: Gen-Z Minimalist */}
+                <div className="mt-32 bg-white rounded-[5rem] p-12 md:p-24 shadow-sm border border-gray-50">
+                    <div className="max-w-4xl mx-auto space-y-16 text-center">
+                        <div className="space-y-4">
+                            <h2 className="text-4xl md:text-6xl font-display font-black text-primary-900 tracking-tighter uppercase leading-none">THE DETAILS MATTER</h2>
+                            <p className="text-xl text-text-muted font-bold italic">Because looking good should feel good too.</p>
+                        </div>
+
+                        <div className="grid md:grid-cols-3 gap-12">
+                            {[
+                                { label: "Material", value: "100% Street-Ready Cotton" },
+                                { label: "Fit", value: "Gen-Z Oversized / Relaxed" },
+                                { label: "Care", value: "Machine Wash, No Boundaries" }
+                            ].map((spec, i) => (
+                                <div key={i} className="space-y-2">
+                                    <p className="text-[10px] font-black text-accent-600 uppercase tracking-[0.3em]">{spec.label}</p>
+                                    <p className="text-2xl font-display font-black text-primary-900 uppercase tracking-tighter">{spec.value}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="pt-16 space-y-10 text-left bg-primary-50 p-12 rounded-[4rem]">
+                            <h3 className="text-2xl font-display font-black text-primary-900 uppercase">Why this vibes:</h3>
+                            <ul className="grid md:grid-cols-2 gap-8">
+                                {[
+                                    "Hyper-durable stitching for all-day energy",
+                                    "Next-gen dye technology for zero fade",
+                                    "Premium weighted fabric for that luxury street feel",
+                                    "Designed in-house by AURA style curators",
+                                    "Eco-conscious production with minimal waste",
+                                    "Perfectly compatible with our AI Try-On engine"
+                                ].map((benefit, i) => (
+                                    <li key={i} className="flex items-center gap-4 text-primary-900 font-bold">
+                                        <div className="w-6 h-6 bg-mint rounded-full flex items-center justify-center shrink-0">
+                                            <Check className="w-4 h-4 text-primary-900" />
+                                        </div>
+                                        {benefit}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 </div>
             </main>
 
-            {/* AI Experience Banner */}
-            <section className="bg-primary-900 py-16 my-20">
-                <div className="container-custom">
-                    <div className="max-w-4xl mx-auto text-center space-y-8">
-                        <div className="w-20 h-20 rounded-3xl bg-accent-600 flex items-center justify-center text-white mx-auto shadow-2xl">
-                            <Camera className="w-10 h-10" />
-                        </div>
-                        <h2 className="text-4xl md:text-5xl font-display font-bold text-white">
-                            See this Outfit on <span className="text-accent-500">You</span>
-                        </h2>
-                        <p className="text-xl text-white/70">
-                            Our AI technology lets you see exactly how this {product.name} fits your unique body proportions before you click buy.
-                        </p>
-                        <Link href={`/try-on?productId=${product.id}`} className="btn-accent btn-lg px-12 inline-flex">
-                            Open Virtual Trial Room
-                            <ChevronRight className="w-5 h-5" />
-                        </Link>
-                    </div>
-                </div>
-            </section>
+            {/* Sticky Footer CTA on Mobile */}
+            <div className="lg:hidden fixed bottom-6 left-6 right-6 z-50">
+                <button className="w-full py-6 bg-primary-900 text-white rounded-[2rem] font-black uppercase text-sm tracking-widest shadow-2xl flex items-center justify-center gap-4">
+                    <ShoppingBag className="w-6 h-6" />
+                    Quick Add to Closet
+                </button>
+            </div>
 
-            {/* Footer */}
-            <footer className="bg-white border-t border-gray-100 py-12">
-                <div className="container-custom flex flex-col md:flex-row justify-between items-center gap-8">
-                    <div className="text-2xl font-display font-bold text-primary-900 italic">AURA FIT</div>
-                    <p className="text-text-muted text-sm">© 2026 AURA FIT. Premium AI-Powered Fashion.</p>
-                </div>
-            </footer>
+            <style jsx global>{`
+                .outline-text {
+                    -webkit-text-stroke: 1px #09090b;
+                    color: transparent;
+                }
+                .no-scrollbar::-webkit-scrollbar {
+                    display: none;
+                }
+                .no-scrollbar {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+            `}</style>
         </div>
     )
 }
