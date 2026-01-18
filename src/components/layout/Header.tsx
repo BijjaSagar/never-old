@@ -22,7 +22,7 @@ export default function Header() {
                         <Sparkles className="w-5 h-5 text-white" />
                     </div>
                     <span className="text-xl font-display font-black tracking-tighter text-primary-900">
-                        AURA FIT
+                        NeverOld
                     </span>
                 </Link>
 

@@ -54,9 +54,9 @@ export default function RegisterPage() {
             <div className="flex-1 flex items-center justify-center p-8 bg-white order-2 md:order-1">
                 <div className="w-full max-w-sm space-y-10">
                     <div className="text-center md:text-left">
-                        <Link href="/" className="text-2xl font-display font-bold text-primary-900 md:hidden mb-8 block">AURA FIT</Link>
+                        <Link href="/" className="text-2xl font-display font-bold text-primary-900 md:hidden mb-8 block">NeverOld</Link>
                         <h2 className="text-3xl font-display font-bold text-primary-900">Create Account</h2>
-                        <p className="text-text-muted mt-2">Join AURA FIT today and experience the future of fashion.</p>
+                        <p className="text-text-muted mt-2">Join NeverOld today and experience the future of fashion.</p>
                     </div>
 
                     <div className="space-y-6">
@@ -144,7 +144,7 @@ export default function RegisterPage() {
                 <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
 
                 <div className="relative z-10 max-w-md text-white">
-                    <Link href="/" className="text-3xl font-display font-bold mb-12 block">AURA FIT</Link>
+                    <Link href="/" className="text-3xl font-display font-bold mb-12 block">NeverOld</Link>
                     <div className="space-y-8">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-secondary-400 text-xs font-bold uppercase tracking-widest">
                             Premium Experience

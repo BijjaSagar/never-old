@@ -1,8 +1,8 @@
-# 🌟 AURA FIT - AI Powered Fashion E-commerce Platform
+# 🌟 NeverOld - AI Powered Fashion E-commerce Platform
 
 <div align="center">
 
-![AURA FIT](https://img.shields.io/badge/AURA_FIT-Premium_Fashion-E11D48?style=for-the-badge)
+![NeverOld](https://img.shields.io/badge/NeverOld-Premium_Fashion-E11D48?style=for-the-badge)
 ![Next.js](https://img.shields.io/badge/Next.js-14+-black?style=for-the-badge&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=for-the-badge&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4+-38bdf8?style=for-the-badge&logo=tailwind-css)
@@ -18,7 +18,7 @@
 
 ## 🎯 Overview
 
-**AURA FIT** is a premium, mobile-first, multi-category fashion e-commerce platform featuring an **AI Virtual Trial Room** that allows customers to visualize how clothes look on them before purchasing. Built with enterprise-grade architecture and Silicon Valley-level quality standards.
+**NeverOld** is a premium, mobile-first, multi-category fashion e-commerce platform featuring an **AI Virtual Trial Room** that allows customers to visualize how clothes look on them before purchasing. Built with enterprise-grade architecture and Silicon Valley-level quality standards.
 
 ### 🌟 Core Features
 
@@ -441,16 +441,16 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ## 📞 Support
 
-- 📧 Email: support@aurafit.com
-- 💬 Discord: [Join our community](https://discord.gg/aurafit)
-- 🐦 Twitter: [@aurafit](https://twitter.com/aurafit)
-- 📖 Docs: [docs.aurafit.com](https://docs.aurafit.com)
+- 📧 Email: support@neverold.com
+- 💬 Discord: [Join our community](https://discord.gg/neverold)
+- 🐦 Twitter: [@neverold](https://twitter.com/neverold)
+- 📖 Docs: [docs.neverold.com](https://docs.neverold.com)
 
 ---
 
 <div align="center">
 
-**Built with ❤️ and AI by the AURA FIT Team**
+**Built with ❤️ and AI by the NeverOld Team**
 
 ⭐ Star us on GitHub — it motivates us a lot!
 

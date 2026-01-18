@@ -1,4 +1,4 @@
-// AURA FIT - Database Schema
+// NeverOld - Database Schema
 // Neon PostgreSQL with Prisma ORM
 
 generator client {

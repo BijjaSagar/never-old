@@ -41,7 +41,7 @@ export default function CartPage() {
             {/* Footer Placeholder */}
             <footer className="bg-white border-t border-border py-12">
                 <div className="container-custom text-center text-text-muted text-sm">
-                    © 2026 AURA FIT. All rights reserved. Premium AI Fashion Experience.
+                    © 2026 NeverOld. All rights reserved. Premium AI Fashion Experience.
                 </div>
             </footer>
         </div>

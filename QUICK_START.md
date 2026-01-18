@@ -1,6 +1,6 @@
-# 🚀 AURA FIT - Quick Start Guide
+# 🚀 NeverOld - Quick Start Guide
 
-## Welcome to AURA FIT! 👋
+## Welcome to NeverOld! 👋
 
 This guide will help you get started with the AI-powered fashion e-commerce platform.
 

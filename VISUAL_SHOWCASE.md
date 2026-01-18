@@ -1,8 +1,8 @@
-# 🌟 AURA FIT - Visual Showcase
+# 🌟 NeverOld - Visual Showcase
 
-## Welcome to AURA FIT
+## Welcome to NeverOld
 
-**AURA FIT** is now live and running! Below is a visual tour of what has been built.
+**NeverOld** is now live and running! Below is a visual tour of what has been built.
 
 ---
 
@@ -18,11 +18,11 @@ The homepage features a stunning hero section with:
 **What You See**:
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  AURA FIT                                    [Nav Menu] │
+│  NeverOld                                    [Nav Menu] │
 │                                                          │
 │         ✨ Powered by Advanced AI Technology            │
 │                                                          │
-│         Welcome to AURA FIT                              │
+│         Welcome to NeverOld                              │
 │                                                          │
 │    Experience the future of fashion shopping with       │
 │    our AI-powered Virtual Trial Room                    │

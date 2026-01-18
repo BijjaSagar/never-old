@@ -1,11 +1,11 @@
-# AURA FIT - AI Powered Fashion E-commerce Platform
+# NeverOld - AI Powered Fashion E-commerce Platform
 ## Enterprise-Grade Architecture Document
 
 ---
 
 ## 🎯 PROJECT OVERVIEW
 
-**AURA FIT** is a premium, AI-powered fashion e-commerce platform specializing in kidswear with multi-category support (Men, Women, Accessories). The platform features an innovative AI Virtual Trial Room that allows customers to visualize garments on their own images before purchase.
+**NeverOld** is a premium, AI-powered fashion e-commerce platform specializing in kidswear with multi-category support (Men, Women, Accessories). The platform features an innovative AI Virtual Trial Room that allows customers to visualize garments on their own images before purchase.
 
 **Target Quality**: Silicon Valley / Global Brand Level (Zara, Nike, Amazon Fashion)
 

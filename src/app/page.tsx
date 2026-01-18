@@ -286,7 +286,7 @@ export default async function HomePage() {
         <div className="container-custom">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
             <div className="space-y-8">
-              <h3 className="text-4xl font-display font-black text-primary-900 tracking-tighter italic uppercase">AURA FIT</h3>
+              <h3 className="text-4xl font-display font-black text-primary-900 tracking-tighter italic uppercase">NeverOld</h3>
               <p className="font-medium text-text-muted leading-relaxed">
                 Reimagining the fashion experience for the next generation. Style powered by AI. Experience redefined.
               </p>
@@ -330,7 +330,7 @@ export default async function HomePage() {
           </div>
 
           <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6 text-text-muted/60 text-[10px] font-black uppercase tracking-[0.2em]">
-            <p>&copy; 2026 AURA FIT. No boundaries.</p>
+            <p>&copy; 2026 NeverOld. No boundaries.</p>
             <div className="flex gap-8">
               <Link href="/privacy" className="hover:text-primary-900">Privacy</Link>
               <Link href="/terms" className="hover:text-primary-900">Terms</Link>

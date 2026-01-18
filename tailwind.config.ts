@@ -10,7 +10,7 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                // AURA FIT Brand Colors
+                // NeverOld Brand Colors
                 primary: {
                     50: '#f8fafc',
                     100: '#f1f5f9',

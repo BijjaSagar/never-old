@@ -123,7 +123,7 @@ async function uploadToStorage(
     // 5. Return the secure URL
 
     // Mock URL
-    return `https://cdn.aurafit.com/tryon/${type}/${Date.now()}.jpg`;
+    return `https://cdn.neverold.com/tryon/${type}/${Date.now()}.jpg`;
 }
 
 /**
@@ -217,7 +217,7 @@ export async function POST(request: NextRequest) {
 
         // Step 4: Fetch product image
         // In production, fetch from database
-        const productImageUrl = `https://cdn.aurafit.com/products/${productId}/${variantId}.jpg`;
+        const productImageUrl = `https://cdn.neverold.com/products/${productId}/${variantId}.jpg`;
 
         // Step 5: Apply garment using AI
         console.log("✨ Applying garment with AI...");

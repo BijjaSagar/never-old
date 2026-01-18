@@ -1,4 +1,4 @@
-# 🚀 AURA FIT - Deployment Guide
+# 🚀 NeverOld - Deployment Guide
 
 ## ✅ GitHub Repository
 **Repository**: https://github.com/BijjaSagar/never-old.git  
@@ -38,7 +38,7 @@ DIRECT_URL="postgresql://..."
 
 # Next.js
 NEXT_PUBLIC_APP_URL="https://your-app.vercel.app"
-NEXT_PUBLIC_APP_NAME="AURA FIT"
+NEXT_PUBLIC_APP_NAME="NeverOld"
 
 # NextAuth (generate with: openssl rand -base64 32)
 NEXTAUTH_URL="https://your-app.vercel.app"
@@ -306,7 +306,7 @@ vercel logs [deployment-url]
 
 ## 🎉 Success!
 
-Once deployed, your AURA FIT platform will be live at:
+Once deployed, your NeverOld platform will be live at:
 - **Production**: https://your-app.vercel.app
 - **GitHub**: https://github.com/BijjaSagar/never-old
 
