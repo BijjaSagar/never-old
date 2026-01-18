@@ -339,13 +339,6 @@ export default async function HomePage() {
         </div>
       </footer>
 
-      {/* Tailwind Utility for outline text */}
-      <style jsx global>{`
-        .outline-text {
-          -webkit-text-stroke: 2px #09090b;
-          color: transparent;
-        }
-      `}</style>
     </div>
   );
 }

@@ -34,6 +34,20 @@
   --radius-3xl: 3rem;
 }
 
+@utility outline-text {
+  -webkit-text-stroke: 1px currentColor;
+  color: transparent;
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Base Styles */
 html {
   scroll-behavior: smooth;

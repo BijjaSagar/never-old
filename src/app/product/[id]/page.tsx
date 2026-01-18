@@ -12,7 +12,8 @@ import {
     ChevronRight,
     Check,
     Sparkles,
-    Zap
+    Zap,
+    Truck
 } from 'lucide-react'
 import prisma from '@/lib/prisma'
 import Header from '@/components/layout/Header'
@@ -147,8 +148,8 @@ export default async function ProductPage({ params }: { params: { id: string } }
                                             <button
                                                 key={size}
                                                 className={`w-16 h-16 rounded-2xl flex items-center justify-center font-black text-xl border-4 transition-all ${size === 'M'
-                                                        ? 'bg-primary-900 border-primary-900 text-white shadow-xl scale-110'
-                                                        : 'bg-white border-transparent text-primary-900 hover:border-lavender'
+                                                    ? 'bg-primary-900 border-primary-900 text-white shadow-xl scale-110'
+                                                    : 'bg-white border-transparent text-primary-900 hover:border-lavender'
                                                     }`}
                                             >
                                                 {size}
@@ -257,19 +258,6 @@ export default async function ProductPage({ params }: { params: { id: string } }
                 </button>
             </div>
 
-            <style jsx global>{`
-                .outline-text {
-                    -webkit-text-stroke: 1px #09090b;
-                    color: transparent;
-                }
-                .no-scrollbar::-webkit-scrollbar {
-                    display: none;
-                }
-                .no-scrollbar {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-            `}</style>
         </div>
     )
 }
