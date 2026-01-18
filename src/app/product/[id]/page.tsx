@@ -18,8 +18,8 @@ import {
 import prisma from '@/lib/prisma'
 import Header from '@/components/layout/Header'
 
-export default async function ProductPage({ params }: { params: { id: string } }) {
-    const { id } = params
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
 
     const product = await prisma.product.findUnique({
         where: { id },
@@ -34,7 +34,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
         notFound()
     }
 
-    const primaryImage = product.images.find(img => img.isPrimary)?.url || product.images[0]?.url
+    const primaryImage = product.images.find(img => img.isPrimary)?.url || product.images[0]?.url || "https://images.unsplash.com/photo-1519457431-75514f775240"
 
     return (
         <div className="min-h-screen bg-primary-50 selection:bg-mint selection:text-primary-900">
