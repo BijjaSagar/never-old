@@ -441,3 +441,110 @@ model Review {
   @@index([isApproved])
   @@map("reviews")
 }
+
+// ============================================
+// SYSTEM SETTINGS
+// ============================================
+
+model SiteSettings {
+  id                String   @id @default("global")
+  
+  // Site Information
+  siteName          String   @default("NeverOld")
+  siteDescription   String?  @db.Text
+  siteLogo          String?
+  siteFavicon       String?
+  contactEmail      String?
+  contactPhone      String?
+  
+  // Theme & Design
+  primaryColor      String   @default("#0F172A")
+  secondaryColor    String   @default("#7C3AED")
+  accentColor       String   @default("#F59E0B")
+  fontFamily        String   @default("Inter")
+  kidsThemeColor    String   @default("#FCD34D") // Yellow/Fun
+  womenThemeColor   String   @default("#D8B4FE") // Lavender
+  menThemeColor     String   @default("#0EA5E9") // Sky Blue
+  
+  // Payment Settings
+  paymentGateway    String   @default("razorpay") // razorpay, stripe, both
+  stripePublicKey   String?
+  stripeSecretKey   String?
+  razorpayKeyId     String?
+  razorpayKeySecret String?
+  currency          String   @default("INR")
+  taxRate           Decimal  @default(0) @db.Decimal(5, 2)
+  
+  // SMS/OTP Settings
+  smsEnabled        Boolean  @default(true)
+  otpProvider       String?  @default("twilio") // twilio, msg91, fast2sms
+  twilioAccountSid  String?
+  twilioAuthToken   String?
+  twilioPhoneNumber String?
+  msg91AuthKey      String?
+  msg91SenderId     String?
+  fast2smsApiKey    String?
+  
+  // Email Settings
+  emailEnabled      Boolean  @default(true)
+  emailProvider     String   @default("smtp") // smtp, sendgrid, resend
+  smtpHost          String?
+  smtpPort          Int?
+  smtpUser          String?
+  smtpPass          String?
+  smtpSecure        Boolean  @default(true)
+  fromEmail         String?
+  fromName          String?
+  sendgridApiKey    String?
+  resendApiKey      String?
+  
+  // Social Login
+  googleLoginEnabled Boolean  @default(false)
+  googleClientId     String?
+  googleClientSecret String?
+  
+  appleLoginEnabled  Boolean  @default(false)
+  appleClientId      String?
+  appleTeamId        String?
+  appleKeyId         String?
+  applePrivateKey    String?  @db.Text
+  
+  facebookLoginEnabled Boolean @default(false)
+  facebookAppId        String?
+  facebookAppSecret    String?
+  
+  // Shipping Settings
+  freeShippingThreshold Decimal? @db.Decimal(10, 2)
+  flatShippingRate      Decimal  @default(0) @db.Decimal(10, 2)
+  shippingZones         Json?
+  
+  // Business Settings
+  orderPrefix           String   @default("NO")
+  minOrderAmount        Decimal  @default(0) @db.Decimal(10, 2)
+  maxOrderAmount        Decimal? @db.Decimal(10, 2)
+  returnPolicyDays      Int      @default(30)
+  
+  // Notifications
+  orderConfirmationEmail Boolean @default(true)
+  orderConfirmationSms   Boolean @default(true)
+  shippingUpdateEmail    Boolean @default(true)
+  shippingUpdateSms      Boolean @default(true)
+  
+  // AI Settings
+  aiTryOnEnabled        Boolean @default(true)
+  replicateApiKey       String?
+  openaiApiKey          String?
+  
+  // Analytics
+  googleAnalyticsId     String?
+  facebookPixelId       String?
+  
+  // Maintenance
+  maintenanceMode       Boolean @default(false)
+  maintenanceMessage    String? @db.Text
+  
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}

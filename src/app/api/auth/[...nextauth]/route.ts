@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import bcrypt from "bcryptjs";
@@ -8,25 +9,40 @@ import prisma from "@/lib/prisma";
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma as any),
     providers: [
+        // Google OAuth
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID || "PLACEHOLDER",
             clientSecret: process.env.GOOGLE_CLIENT_SECRET || "PLACEHOLDER",
+            authorization: {
+                params: {
+                    prompt: "consent",
+                    access_type: "offline",
+                    response_type: "code",
+                },
+            },
         }),
+
+        // Apple Sign In
+        AppleProvider({
+            clientId: process.env.APPLE_CLIENT_ID || "PLACEHOLDER",
+            clientSecret: process.env.APPLE_CLIENT_SECRET || "PLACEHOLDER",
+        }),
+
+        // Email/Password Login
         CredentialsProvider({
-            name: "credentials",
+            id: "credentials",
+            name: "Email & Password",
             credentials: {
-                email: { label: "Email", type: "text" },
+                email: { label: "Email", type: "email" },
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
-                    throw new Error("Invalid credentials");
+                    throw new Error("Email and password required");
                 }
 
                 const user = await prisma.user.findUnique({
-                    where: {
-                        email: credentials.email,
-                    },
+                    where: { email: credentials.email },
                 });
 
                 if (!user || !user.passwordHash) {
@@ -45,13 +61,56 @@ export const authOptions: NextAuthOptions = {
                 return user as any;
             },
         }),
+
+        // Phone/OTP Login
+        CredentialsProvider({
+            id: "phone",
+            name: "Phone Number",
+            credentials: {
+                phone: { label: "Phone", type: "tel" },
+                otp: { label: "OTP", type: "text" },
+            },
+            async authorize(credentials) {
+                if (!credentials?.phone || !credentials?.otp) {
+                    throw new Error("Phone and OTP required");
+                }
+
+                // TODO: Verify OTP with Twilio/MSG91
+                // For now, accept any 6-digit code in development
+                const isOtpValid = credentials.otp.length === 6 && /^\d+$/.test(credentials.otp);
+
+                if (!isOtpValid) {
+                    throw new Error("Invalid OTP");
+                }
+
+                // Find or create user
+                let user = await prisma.user.findUnique({
+                    where: { phone: credentials.phone },
+                });
+
+                if (!user) {
+                    user = await prisma.user.create({
+                        data: {
+                            phone: credentials.phone,
+                            phoneVerified: true,
+                            email: `${credentials.phone}@phone.neverold.com`,
+                        },
+                    });
+                }
+
+                return user as any;
+            },
+        }),
     ],
     pages: {
-        signIn: "/login",
+        signIn: "/auth/signin",
+        signOut: "/auth/signout",
+        error: "/auth/error",
     },
     debug: process.env.NODE_ENV === "development",
     session: {
         strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     callbacks: {
         async jwt({ token, user, trigger, session }) {
