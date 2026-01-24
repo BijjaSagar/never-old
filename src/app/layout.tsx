@@ -61,6 +61,7 @@ export const metadata: Metadata = {
 };
 
 import { NextAuthProvider } from "@/components/providers/SessionProvider";
+import { CategoryProvider } from "@/contexts/CategoryContext";
 
 export default function RootLayout({
   children,
@@ -71,7 +72,9 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <body className="antialiased">
         <NextAuthProvider>
-          {children}
+          <CategoryProvider>
+            {children}
+          </CategoryProvider>
         </NextAuthProvider>
       </body>
     </html>
